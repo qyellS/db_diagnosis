@@ -1,6 +1,4 @@
-from typing import Tuple
-
-def check_value(cell_value: str, field_type: str) -> Tuple[bool, str]:
+def check_value(cell_value, field_type):
     """校验身份证号（仅当字段类型为身份证号时触发）"""
     if field_type != '身份证号':
         return False, ""

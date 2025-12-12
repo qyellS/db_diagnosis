@@ -1,6 +1,5 @@
 import pandas as pd
 import importlib
-import os
 from typing import List, Tuple, Dict, Callable
 from config import MIN_HEADER_COLS, SKIP_FIRST_COL, SKIP_ALL_EMPTY_COLS, ENABLED_RULES
 from utils import count_non_empty_cols, is_col_all_empty, match_field_type

@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from config import SUPPORTED_FORMATS, SKIP_TEMP_FILES, TEMP_FILE_PREFIX
 from get_excel import read_table_file
-from checker import find_valid_header_row, check_all_rules  # 改这里
+from checker import find_valid_header_row, check_all_rules
 
 
 def traverse_folder(folder_path: str, output_file: str) -> None:
@@ -37,10 +37,12 @@ def traverse_folder(folder_path: str, output_file: str) -> None:
                             output.write(f"识别到有效表头行：第{header_row + 1}行\n")
                             output.write("❌ 发现异常值：\n")
                             limited_errors = errors[:10]
-                            for row, col, content in limited_errors:
+
+                            # for row, col, content in limited_errors:
+                            for row, col, content in errors:
                                 output.write(f"   行{row} 列{col}：{content}\n")
-                            if len(errors) > 10:
-                                output.write("   ... 更多异常值已省略\n")
+                            # if len(errors) > 10:
+                            #     output.write("   ... 更多异常值已省略\n")
                     except Exception as e:
                         output.write(f"\n======== 读取失败：{file_path} ========\n")
                         output.write(f"错误原因：{str(e)}\n")
