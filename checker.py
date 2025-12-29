@@ -3,19 +3,20 @@ import importlib
 import os
 import sys
 from typing import List, Tuple, Dict, Callable
+from config import MIN_HEADER_COLS, SKIP_FIRST_COL, SKIP_ALL_EMPTY_COLS, ENABLED_RULES
+from utils import count_non_empty_cols, is_col_all_empty, match_field_type
 
 # 确保根目录在Python路径中
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# 导入新增的重复校验函数
+# 导入验函数
 from check_rules.check_header import check_duplicate_header
 from check_rules.check_row import check_duplicate_row
-from check_rules.check_primary_slave import check_primary_slave_duplicate  # 新增
+from check_rules.check_primary_slave import check_primary_slave_duplicate
 from check_rules.check_key_scope import check_field_range
-
-from config import MIN_HEADER_COLS, SKIP_FIRST_COL, SKIP_ALL_EMPTY_COLS, ENABLED_RULES
-from utils import count_non_empty_cols, is_col_all_empty, match_field_type
-
+from check_rules.check_field_length import check_field_length
+from check_rules.check_field_enum import check_field_enum
+from check_rules.check_time_rule import check_field_date
 
 def load_check_rules() -> Dict[str, Callable]:
     rule_functions = {}
@@ -75,9 +76,18 @@ def check_all_rules(df: pd.DataFrame, header_row: int) -> List[Tuple[int, int, s
     field_range_errors = check_field_range(df, header_row)
     errors.extend(field_range_errors)
 
-    # 原有字段映射+规则校验（不动）
     header_mapping = get_header_mapping(df, header_row)
     rule_functions = load_check_rules()
+
+    field_length_errors = check_field_length(df, header_row)
+    errors.extend(field_length_errors)
+
+    field_enum_errors = check_field_enum(df, header_row)
+    errors.extend(field_enum_errors)
+
+    field_date_errors = check_field_date(df, header_row)
+    errors.extend(field_date_errors)
+
 
     for row_idx in range(header_row + 1, df.shape[0]):
         row_values = df.iloc[row_idx]
