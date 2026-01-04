@@ -1,4 +1,5 @@
 import re
+import os
 #配置
 EMPTY_PATTERN = re.compile(r'^\s*$')
 # 支持的表格格式
@@ -32,6 +33,7 @@ ENABLED_RULES = [
     "check_field_length",   # 检查指定字段长度数是否符合
     "check_field_enum",     # 检查枚举类型字段内容
     "check_time_rule",      # 检查时间类型字段是符合内容
+    "check_sensitive_word", # 敏感词检测
 ]
 
 #小数精度检查配置（列名关键词 : 保留小数位数）
@@ -83,3 +85,17 @@ FIELD_DATE_RULES = {
     "时间": ["%Y-%m-%d"],              # 仅支持YYYY-MM-DD
 
 }
+
+SENSITIVE_CONFIG = {
+    "sensitive_file_rel_path": "data\keywords.txt"  # 敏感词文件相对路径
+}
+
+# 辅助：获取项目根目录（用于解析相对路径）
+def get_project_root():
+    return os.path.dirname(os.path.abspath(__file__))
+
+# 辅助：获取敏感词文件绝对路径
+def get_sensitive_file_path():
+    root = get_project_root()
+    rel_path = SENSITIVE_CONFIG.get("sensitive_file_rel_path", "keywords.txt")
+    return os.path.join(root, rel_path)

@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import sys
 import re
-
+from SetExcelRule.config import PRIMARY_SLAVE_KEY_RULES, EMPTY_PATTERN
 
 def check_value(cell_value, field_type):
     """兼容插件化接口，无实际逻辑"""
@@ -21,7 +21,7 @@ def check_primary_slave_duplicate(df, header_row):
     RULE_DIR = os.path.dirname(os.path.abspath(__file__))
     ROOT_DIR = os.path.dirname(RULE_DIR)
     sys.path.append(ROOT_DIR)
-    from config import PRIMARY_SLAVE_KEY_RULES, EMPTY_PATTERN
+
 
     # 2. 预处理表头：构建「清理后表头→列索引」映射（用于模糊匹配）
     header_clean_to_col = {}  # 清理后的表头 → 列索引

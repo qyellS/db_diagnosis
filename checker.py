@@ -17,6 +17,7 @@ from check_rules.check_key_scope import check_field_range
 from check_rules.check_field_length import check_field_length
 from check_rules.check_field_enum import check_field_enum
 from check_rules.check_time_rule import check_field_date
+from check_rules.check_sensitive_word import check_sensitive_word
 
 def load_check_rules() -> Dict[str, Callable]:
     rule_functions = {}
@@ -88,6 +89,8 @@ def check_all_rules(df: pd.DataFrame, header_row: int) -> List[Tuple[int, int, s
     field_date_errors = check_field_date(df, header_row)
     errors.extend(field_date_errors)
 
+    sensitive_errors = check_sensitive_word(df, header_row)
+    errors.extend(sensitive_errors)
 
     for row_idx in range(header_row + 1, df.shape[0]):
         row_values = df.iloc[row_idx]
