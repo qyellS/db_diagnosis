@@ -25,21 +25,24 @@ ENABLED_RULES = [
     "check_id_card",        # 身份证号校验
     "check_mobile",         # 手机号校验
     "check_postcode",       # 邮政编码校验
-    "check_float",          # 浮点数精度校验
     "check_header",         # 检查表头
     "check_row",            # 检查重复行
     "check_primary_slave",  # 检查主键从键（数据唯一性）
-    "check_key_scope",      # 检查关键字范围
+    "check_sensitive_word",  # 敏感词检测
+
+    "check_float",          # 浮点数精度校验
+    "check_key_scope",      # 检查关键字范围  例如年龄范围
     "check_field_length",   # 检查指定字段长度数是否符合
-    "check_field_enum",     # 检查枚举类型字段内容
+    "check_field_enum",     # 检查枚举类型字段内容   性别  男或女或保密
     "check_time_rule",      # 检查时间类型字段是符合内容
-    "check_sensitive_word", # 敏感词检测
+
 ]
 
 #小数精度检查配置（列名关键词 : 保留小数位数）
 DECIMAL_PRECISION_RULES = {
     '容积(L)': 1,
     '容量': 3,
+    '':4,
 }
 
 # 检查内容是否符合固定规则，如身份证号18位，手机号11位，邮政编码6位
@@ -73,7 +76,7 @@ FIELD_LENGTH_RULES = {
 # 字段枚举值校验规则（对应需求的JSON格式，转为Python字典）
 FIELD_ENUM_RULES = {
     "性别": "男，女，保密",       # 性别允许值：男、女、保密
-    "状态": "正常，故障",         # 状态允许值：正常、故障
+    "状态": "在用，通气已点火，通气未点火",         # 状态允许值：正常、故障
 
 }
 
