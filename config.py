@@ -6,7 +6,7 @@ EMPTY_PATTERN = re.compile(r'^\s*$')
 SUPPORTED_FORMATS = ('.xlsx', '.xls', '.csv')
 
 # 配置：是否跳过第一列检查（True=跳过，False=不跳过）
-SKIP_FIRST_COL = True
+SKIP_FIRST_COL = False
 # 配置：跳过全空列的检查（True=跳过，False=不跳过）
 SKIP_ALL_EMPTY_COLS = True
 # 过滤Excel临时文件（以~$开头）
@@ -27,14 +27,15 @@ ENABLED_RULES = [
     "check_postcode",       # 邮政编码校验
     "check_header",         # 检查表头
     "check_row",            # 检查重复行
-    "check_primary_slave",  # 检查主键从键（数据唯一性）
     "check_sensitive_word",  # 敏感词检测
 
     "check_float",          # 浮点数精度校验
+    "check_primary_slave",  # 检查主键从键（数据唯一性）
     "check_key_scope",      # 检查关键字范围  例如年龄范围
     "check_field_length",   # 检查指定字段长度数是否符合
     "check_field_enum",     # 检查枚举类型字段内容   性别  男或女或保密
     "check_time_rule",      # 检查时间类型字段是符合内容
+    "check_encrypt",        # 检查字段是否进行加密
 
 ]
 
@@ -42,7 +43,7 @@ ENABLED_RULES = [
 DECIMAL_PRECISION_RULES = {
     '容积(L)': 1,
     '容量': 3,
-    '':4,
+
 }
 
 # 检查内容是否符合固定规则，如身份证号18位，手机号11位，邮政编码6位
@@ -69,8 +70,9 @@ FIELD_RANGE_RULES = {
 
 #字段位数校验规则（对应需求的JSON格式，转为Python字典）
 FIELD_LENGTH_RULES = {
-    "门牌号": 3,   # 要求门牌号长度为3
-    "设备号": 2    # 要求设备号长度为9
+    "门牌号": [3, 4, 6],  # 支持3位、4位、6位
+    "设备号": [12],         # 仅支持9位
+
 }
 
 # 字段枚举值校验规则（对应需求的JSON格式，转为Python字典）
@@ -87,6 +89,16 @@ FIELD_DATE_RULES = {
     "测试时间": ["%Y-%m-%d", "%Y/%m/%d", "%Y-%m-%d %H:%M:%S", "%Y/%m/%d %H:%M:%S"],
     "时间": ["%Y-%m-%d"],              # 仅支持YYYY-MM-DD
 
+}
+
+ENCRYPT_REQUIRED_FIELDS = [
+    "身份证号",    # 需要加密的字段名1
+    "手机号"       # 需要加密的字段名2
+]
+
+ENCRYPT_CONFIG = {
+    "min_star_count": 1,  # 至少包含1个*
+    "ignore_empty": True  # 空值跳过检查
 }
 
 SENSITIVE_CONFIG = {

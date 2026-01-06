@@ -9,7 +9,7 @@ from utils import count_non_empty_cols, is_col_all_empty, match_field_type
 # 确保根目录在Python路径中
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# 导入验函数
+# 导入校验函数（新增check_encrypt导入）
 from check_rules.check_header import check_duplicate_header
 from check_rules.check_row import check_duplicate_row
 from check_rules.check_primary_slave import check_primary_slave_duplicate
@@ -18,6 +18,8 @@ from check_rules.check_field_length import check_field_length
 from check_rules.check_field_enum import check_field_enum
 from check_rules.check_time_rule import check_field_date
 from check_rules.check_sensitive_word import check_sensitive_word
+from check_rules.check_encrypt import check_encrypt  # 新增：导入加密检查函数
+
 
 def load_check_rules() -> Dict[str, Callable]:
     rule_functions = {}
@@ -63,34 +65,45 @@ def check_all_rules(df: pd.DataFrame, header_row: int) -> List[Tuple[int, int, s
             if is_col_all_empty(df, col_idx):
                 skip_cols.add(col_idx)
 
-    # 新增1：校验表头重复
+    # 1. 表头重复检查
     header_duplicate_errors = check_duplicate_header(df, header_row)
     errors.extend(header_duplicate_errors)
 
-    # 新增2：校验数据行重复
+    # 2. 数据行重复检查
     row_duplicate_errors = check_duplicate_row(df, header_row)
     errors.extend(row_duplicate_errors)
 
+    # 3. 主键从键唯一性检查
     primary_slave_errors = check_primary_slave_duplicate(df, header_row)
     errors.extend(primary_slave_errors)
 
+    # 4. 关键字范围检查
     field_range_errors = check_field_range(df, header_row)
     errors.extend(field_range_errors)
 
-    header_mapping = get_header_mapping(df, header_row)
-    rule_functions = load_check_rules()
-
+    # 5. 字段长度检查
     field_length_errors = check_field_length(df, header_row)
     errors.extend(field_length_errors)
 
+    # 6. 枚举类型检查
     field_enum_errors = check_field_enum(df, header_row)
     errors.extend(field_enum_errors)
 
+    # 7. 时间格式检查
     field_date_errors = check_field_date(df, header_row)
     errors.extend(field_date_errors)
 
+    # 8. 敏感词检测
     sensitive_errors = check_sensitive_word(df, header_row)
     errors.extend(sensitive_errors)
+
+    # 9. 字段加密检查
+    encrypt_errors = check_encrypt(df, header_row)
+    errors.extend(encrypt_errors)
+
+    # 10. 加载并执行其他规则（check_null/check_id_card/check_mobile等）
+    header_mapping = get_header_mapping(df, header_row)
+    rule_functions = load_check_rules()
 
     for row_idx in range(header_row + 1, df.shape[0]):
         row_values = df.iloc[row_idx]
