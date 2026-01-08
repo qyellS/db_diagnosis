@@ -18,8 +18,8 @@ from check_rules.check_field_length import check_field_length
 from check_rules.check_field_enum import check_field_enum
 from check_rules.check_time_rule import check_field_date
 from check_rules.check_sensitive_word import check_sensitive_word
-from check_rules.check_encrypt import check_encrypt  # 新增：导入加密检查函数
-
+from check_rules.check_encrypt import check_encrypt
+from check_rules.check_null import check_header_null
 
 def load_check_rules() -> Dict[str, Callable]:
     rule_functions = {}
@@ -104,6 +104,9 @@ def check_all_rules(df: pd.DataFrame, header_row: int) -> List[Tuple[int, int, s
     # 10. 加载并执行其他规则（check_null/check_id_card/check_mobile等）
     header_mapping = get_header_mapping(df, header_row)
     rule_functions = load_check_rules()
+
+    header_null_errors = check_header_null(df, header_row)
+    errors.extend(header_null_errors)
 
     for row_idx in range(header_row + 1, df.shape[0]):
         row_values = df.iloc[row_idx]
