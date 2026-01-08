@@ -44,9 +44,13 @@ check_field_enum
 
 check_time_rule
     FIELD_DATE_RULES
+
     年  月  日  时  分  秒
+
     %Y %M  %D  %H  %M  %S
+
     "测试时间": ["%Y-%m-%d", "%Y/%m/%d", "%Y-%m-%d %H:%M:%S", "%Y/%m/%d %H:%M:%S"],
+
     需要什么格式就拼接什么格式
     例如只支持   2026/01/01   则   %Y/%M/%D
               2026+01+01    则   %Y+%M+%D
