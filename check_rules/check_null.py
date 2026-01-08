@@ -26,6 +26,8 @@ def check_value(cell_value: str, field_type: str) -> Tuple[bool, str]:
         return True, "特殊字符：/"
     elif cell_value == '--':
         return True, "特殊字符：--"
+    elif cell_value == '__':
+        return True, "特殊字符：__"
     return False, ""
 
 

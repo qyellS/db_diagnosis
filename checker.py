@@ -105,6 +105,7 @@ def check_all_rules(df: pd.DataFrame, header_row: int) -> List[Tuple[int, int, s
     header_mapping = get_header_mapping(df, header_row)
     rule_functions = load_check_rules()
 
+    # 11.字段为空检查
     header_null_errors = check_header_null(df, header_row)
     errors.extend(header_null_errors)
 
