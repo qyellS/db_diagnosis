@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from check_rules.check_data_correctness import init_semantic_model
 from config import SUPPORTED_FORMATS, SKIP_TEMP_FILES, TEMP_FILE_PREFIX
 from get_excel import read_table_file
 from checker import find_valid_header_row, check_all_rules
