@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 import pandas as pd
-from SetExcelRule.config import ENCRYPT_REQUIRED_FIELDS, ENCRYPT_CONFIG, EMPTY_PATTERN
+from config import ENCRYPT_REQUIRED_FIELDS, ENCRYPT_CONFIG, EMPTY_PATTERN
 
 
 def check_value(cell_value, field_type):

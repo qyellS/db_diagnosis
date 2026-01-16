@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import sys
 import re
-from SetExcelRule.config import FIELD_RANGE_RULES, EMPTY_PATTERN
+from config import FIELD_RANGE_RULES, EMPTY_PATTERN
 
 
 def check_value(cell_value, field_type):

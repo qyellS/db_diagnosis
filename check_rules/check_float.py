@@ -1,7 +1,7 @@
 import os
 import sys
-from SetExcelRule.config import DECIMAL_PRECISION_RULES, EMPTY_PATTERN
-from SetExcelRule.utils import match_field_type
+from config import DECIMAL_PRECISION_RULES, EMPTY_PATTERN
+from utils import match_field_type
 
 def check_value(cell_value, field_type):
     """校验小数精度"""

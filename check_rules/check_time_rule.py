@@ -3,7 +3,7 @@ import os
 import sys
 import re
 from datetime import datetime
-from SetExcelRule.config import FIELD_DATE_RULES, EMPTY_PATTERN
+from config import FIELD_DATE_RULES, EMPTY_PATTERN
 
 def check_value(cell_value, field_type):
     """兼容插件化接口，无实际逻辑"""

@@ -100,7 +100,7 @@ import pandas as pd
 import os
 import sys
 import re
-from SetExcelRule.config import FIELD_LENGTH_RULES, EMPTY_PATTERN
+from config import FIELD_LENGTH_RULES, EMPTY_PATTERN
 # EMPTY_PATTERN = re.compile(r'^\s*$')  # 匹配空值的正则
 
 

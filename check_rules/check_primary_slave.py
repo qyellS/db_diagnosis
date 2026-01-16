@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import sys
 import re
-from SetExcelRule.config import PRIMARY_SLAVE_KEY_RULES, EMPTY_PATTERN
+from config import PRIMARY_SLAVE_KEY_RULES, EMPTY_PATTERN
 
 def check_value(cell_value, field_type):
     """兼容插件化接口，无实际逻辑"""
